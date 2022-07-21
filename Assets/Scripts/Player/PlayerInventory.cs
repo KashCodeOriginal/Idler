@@ -12,6 +12,10 @@ public class PlayerInventory : MonoBehaviour
     
     public int MaxOreInInventory => _maxOreAmmountInOnventory - _oreAmount;
     public int MaxWoodInInventory => _maxWoodAmmountInOnventory - _woodAmount;
+
+    public int OreAmount => _oreAmount;
+    
+    public int WoodAmount => _woodAmount;
     
     private void OnEnable()
     {

@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 05121139a46ed7f42806633764ce15ce
+guid: 9f6b9f1d69012af4b9ab541b5de5404c
 ModelImporter:
   serializedVersion: 21100
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Place
+    second: Carrying Idle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,18 +35,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Place
+      name: Carrying Idle
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 139
+      lastFrame: 189
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 1
