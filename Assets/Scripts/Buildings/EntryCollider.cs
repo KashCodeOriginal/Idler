@@ -9,7 +9,7 @@ public class EntryCollider : MonoBehaviour
     {
         if (collider.GetComponent<Player>() == true)
         {
-            _buildingInterface.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            _buildingInterface.SetActive(true);
             for (int i = 0; i < _buildingInterface.transform.childCount; i++)
             {
                 _buildingInterface.transform.GetChild(i).gameObject.SetActive(true);
@@ -20,7 +20,7 @@ public class EntryCollider : MonoBehaviour
     {
         if (collider.GetComponent<Player>() == true)
         {
-            _buildingInterface.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            _buildingInterface.SetActive(false);
             for (int i = 0; i < _buildingInterface.transform.childCount; i++)
             {
                 _buildingInterface.transform.GetChild(i).gameObject.SetActive(false);
