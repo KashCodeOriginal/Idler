@@ -6,7 +6,13 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
-
+    
+    [SerializeField] private int _maxOreAmmountInOnventory;
+    [SerializeField] private int _maxWoodAmmountInOnventory;
+    
+    public int MaxOreInInventory => _maxOreAmmountInOnventory - _oreAmount;
+    public int MaxWoodInInventory => _maxWoodAmmountInOnventory - _woodAmount;
+    
     private void OnEnable()
     {
         _resourcesCreation.OreIsCollected += AddOre;

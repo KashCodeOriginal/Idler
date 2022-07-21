@@ -6,8 +6,7 @@ public class CollectResource : MonoBehaviour
 {
     public event UnityAction OreCollected;
     public event UnityAction WoodCollected;
-
-
+    
     public void CollectOre()
     {
         OreCollected?.Invoke();
