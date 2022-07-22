@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +8,9 @@ public class ResourceDisplay : MonoBehaviour
     
     [SerializeField] private TMP_Text _oreOnFabricValueText;
     [SerializeField] private TMP_Text _woodOnFabricValueText;
+    
+    [SerializeField] private TMP_Text _ingotsOnFabricValueText;
+    [SerializeField] private TMP_Text _planksOnFabricValueText;
 
     [SerializeField] private ResourcesCreation resourcesCreation;
     [SerializeField] private Fabric _fabric;
@@ -19,6 +21,8 @@ public class ResourceDisplay : MonoBehaviour
         resourcesCreation.WoodAmountChanged += ChangeWoodValue;
         _fabric.OreAmountChanged += ChangeFabricOreValue;
         _fabric.WoodAmountChanged += ChangeFabricWoodValue;
+        _fabric.IngotsAmountChanged += ChangeFabricIngotsValue;
+        _fabric.PlanksAmountChanged += ChangeFabricPlanksValue;
     }
     private void OnDisable()
     {
@@ -26,6 +30,8 @@ public class ResourceDisplay : MonoBehaviour
         resourcesCreation.WoodAmountChanged -= ChangeWoodValue;
         _fabric.OreAmountChanged -= ChangeFabricOreValue;
         _fabric.WoodAmountChanged -= ChangeFabricWoodValue;
+        _fabric.IngotsAmountChanged -= ChangeFabricIngotsValue;
+        _fabric.PlanksAmountChanged -= ChangeFabricPlanksValue;
     }
 
     private void ChangeOreValue(int value)
@@ -43,5 +49,13 @@ public class ResourceDisplay : MonoBehaviour
     private void ChangeFabricWoodValue(int value)
     {
         _woodOnFabricValueText.text = value.ToString();
+    }
+    private void ChangeFabricIngotsValue(int value)
+    {
+        _ingotsOnFabricValueText.text = value.ToString();
+    }
+    private void ChangeFabricPlanksValue(int value)
+    {
+        _planksOnFabricValueText.text = value.ToString();
     }
 }

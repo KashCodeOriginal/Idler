@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _box;
 
+    [SerializeField] private EntryCollider _entryCollider;
+
     private void PlayerRun(bool isPlayerRunning)
     {
         _animator.SetBool("IsRunning", isPlayerRunning);
@@ -22,12 +24,17 @@ public class Player : MonoBehaviour
     {
         _animator.SetBool("IsCarryingAndRunning", isPlayerRunningWithBoxes);
     }
+    private void PlayerPlacingBox()
+    {
+        _animator.SetTrigger("Placing");
+    }
 
     private void OnEnable()
     {
         _playerMovement.PlayerIsRunning += PlayerRun;
         _playerMovement.PlayerIsIdleingWithResources += PlayerIdleingWithBoxes;
         _playerMovement.PlayerIsRunningWithResources += PlayerRunningWithBoxes;
+        _entryCollider.PlacingBox += PlayerPlacingBox;
     }
 
     private void OnDisable()
@@ -35,5 +42,6 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsRunning -= PlayerRun;
         _playerMovement.PlayerIsIdleingWithResources -= PlayerIdleingWithBoxes;
         _playerMovement.PlayerIsRunningWithResources -= PlayerRunningWithBoxes;
+        _entryCollider.PlacingBox -= PlayerPlacingBox;
     }
 }
