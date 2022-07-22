@@ -90,8 +90,8 @@ public class PlayerInventory : MonoBehaviour
         }
         else if (_oreAmount > 0 && _oreAmount > _fabric.MaxOreAmountOnFabric)
         {
-            AddOreToFabric?.Invoke(_fabric.MaxOreAmountOnFabric);
             _oreAmount -= _fabric.MaxOreAmountOnFabric;
+            AddOreToFabric?.Invoke(_fabric.MaxOreAmountOnFabric);
             OreAmountInventoryChanged?.Invoke(_oreAmount);
         }
     }
@@ -105,8 +105,8 @@ public class PlayerInventory : MonoBehaviour
         }
         else if (_woodAmount > 0 && _woodAmount > _fabric.MaxWoodAmountOnFabric)
         {
-            AddWoodToFabric?.Invoke(_fabric.MaxWoodAmountOnFabric);
             _woodAmount -= _fabric.MaxWoodAmountOnFabric;
+            AddWoodToFabric?.Invoke(_fabric.MaxWoodAmountOnFabric);
             WoodAmountInventoryChanged?.Invoke(_woodAmount);
         }
     }
