@@ -10,11 +10,20 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
     
-    [SerializeField] private int _maxOreAmmountInOnventory;
-    [SerializeField] private int _maxWoodAmmountInOnventory;
+    [SerializeField] private int _maxOreAmountInOnventory;
+    [SerializeField] private int _maxWoodAmountInOnventory;
     
-    public int MaxOreInInventory => _maxOreAmmountInOnventory - _oreAmount;
-    public int MaxWoodInInventory => _maxWoodAmmountInOnventory - _woodAmount;
+    [SerializeField] private int _ingotAmount;
+    [SerializeField] private int _plankAmount;
+    
+    [SerializeField] private int _maxIngotAmountInOnventory;
+    [SerializeField] private int _maxPlankAmountInOnventory;
+    
+    public int MaxIngotInInventory => _maxIngotAmountInOnventory - _ingotAmount;
+    public int MaxPlankInInventory => _maxPlankAmountInOnventory - _plankAmount;
+    
+    public int MaxOreInInventory => _maxOreAmountInOnventory - _oreAmount;
+    public int MaxWoodInInventory => _maxWoodAmountInOnventory - _woodAmount;
 
     public int OreAmount => _oreAmount;
     
@@ -22,17 +31,20 @@ public class PlayerInventory : MonoBehaviour
 
     public event UnityAction<int> AddOreToFabric;
     public event UnityAction<int> AddWoodToFabric;
-
-    private void Start()
-    {
-        //Load();
-    }
+    
+    public event UnityAction<int> OreAmountInventoryChanged;
+    public event UnityAction<int> IngotAmountInventoryChanged;
+    public event UnityAction<int> WoodAmountInventoryChanged;
+    public event UnityAction<int> PlankAmountInventoryChanged;
+    
     private void OnEnable()
     {
         _resourcesCreation.OreIsCollected += AddOre;
         _resourcesCreation.WoodIsCollected += AddWood;
         _fabric.TryGetOre += GetOreAmount;
         _fabric.TryGetWood += GetWoodAmount;
+        _fabric.AddIngotToInventory += AddIngot;
+        _fabric.AddPlankToInventory += AddPlank;
     }
 
     private void OnDisable()
@@ -41,18 +53,31 @@ public class PlayerInventory : MonoBehaviour
         _resourcesCreation.WoodIsCollected -= AddWood;
         _fabric.TryGetOre -= GetOreAmount;
         _fabric.TryGetWood -= GetWoodAmount;
+        _fabric.AddIngotToInventory -= AddIngot;
+        _fabric.AddPlankToInventory -= AddPlank;
     }
 
     private void AddOre(int value)
     {
         _oreAmount += value;
-        Save();
+        OreAmountInventoryChanged?.Invoke(_oreAmount);
     }
 
     private void AddWood(int value)
     {
         _woodAmount += value;
-        Save();
+        WoodAmountInventoryChanged?.Invoke(_woodAmount);
+    }
+
+    private void AddIngot(int value)
+    {
+        _ingotAmount += value;
+        IngotAmountInventoryChanged?.Invoke(_ingotAmount);
+    }
+    private void AddPlank(int value)
+    {
+        _plankAmount += value;
+        PlankAmountInventoryChanged?.Invoke(_plankAmount);
     }
 
     private void GetOreAmount()
@@ -61,13 +86,14 @@ public class PlayerInventory : MonoBehaviour
         {
             AddOreToFabric?.Invoke(_oreAmount);
             _oreAmount = 0;
+            OreAmountInventoryChanged?.Invoke(_oreAmount);
         }
         else if (_oreAmount > 0 && _oreAmount > _fabric.MaxOreAmountOnFabric)
         {
             AddOreToFabric?.Invoke(_fabric.MaxOreAmountOnFabric);
+            _oreAmount -= _fabric.MaxOreAmountOnFabric;
+            OreAmountInventoryChanged?.Invoke(_oreAmount);
         }
-
-        Save();
     }
     private void GetWoodAmount()
     {
@@ -75,24 +101,14 @@ public class PlayerInventory : MonoBehaviour
         {
             AddWoodToFabric?.Invoke(_woodAmount);
             _woodAmount = 0;
+            WoodAmountInventoryChanged?.Invoke(_woodAmount);
         }
         else if (_woodAmount > 0 && _woodAmount > _fabric.MaxWoodAmountOnFabric)
         {
             AddWoodToFabric?.Invoke(_fabric.MaxWoodAmountOnFabric);
+            _woodAmount -= _fabric.MaxWoodAmountOnFabric;
+            WoodAmountInventoryChanged?.Invoke(_woodAmount);
         }
-
-        Save();
     }
-
-    private void Save()
-    {
-        PlayerPrefs.SetInt("InventoryOreAmount", _oreAmount);
-        PlayerPrefs.SetInt("InventoryWoodAmount", _woodAmount);
-    }
-
-    private void Load()
-    {
-        _oreAmount = PlayerPrefs.GetInt("InventoryOreAmount");
-        _woodAmount = PlayerPrefs.GetInt("InventoryWoodAmount");
-    }
+    
 }

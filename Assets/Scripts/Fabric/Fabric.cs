@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class Fabric : MonoBehaviour
 {
@@ -32,6 +31,9 @@ public class Fabric : MonoBehaviour
     public event UnityAction TryGetOre;
     public event UnityAction TryGetWood;
 
+    public event UnityAction<int> AddIngotToInventory;
+    public event UnityAction<int> AddPlankToInventory;
+
     public event UnityAction<int> OreAmountChanged;
     public event UnityAction<int> WoodAmountChanged;
     
@@ -39,10 +41,10 @@ public class Fabric : MonoBehaviour
     public event UnityAction<int> PlanksAmountChanged;
 
     public event UnityAction PlacingBox;
-    
+
     private void FixedUpdate()
     {
-        if (_oreAmountOnFabric > 0 && _oreAmountOnFabric <= _maxIronIngotAmountOnFabric)
+        if (_oreAmountOnFabric > 0 && _oreAmountOnFabric <= _maxOreAmountOnFabric && _ironIngotAmountOnFabric < _maxIronIngotAmountOnFabric)
         {
             _currentTimeBetweenIngots += Time.fixedDeltaTime;
             
@@ -55,8 +57,7 @@ public class Fabric : MonoBehaviour
                 _currentTimeBetweenIngots = 0;
             }
         }
-
-        if (_woodAmountOnFabric > 0)
+        if (_woodAmountOnFabric > 0 && _woodAmountOnFabric <= _maxWoodAmountOnFabric && _woodPlanksAmountOnFabric < _maxWoodPlanksAmountOnFabric)
         {
             _currentTimeBetweenPlanks += Time.fixedDeltaTime;
 
@@ -77,7 +78,8 @@ public class Fabric : MonoBehaviour
         _fabricFill.TryFillWoodOnFabric += TryGetWoodFromPlayer;
         _playerInventory.AddOreToFabric += AddOre;
         _playerInventory.AddWoodToFabric += AddWood;
-        _fabricCollect.TryCollectIngotOnFabric += 
+        _fabricCollect.TryCollectIngotOnFabric += TryCollectIngotFromFabric;
+        _fabricCollect.TryCollectPlankOnFabric += TryCollectPlankFromFabric;
     }
     private void OnDisable()
     {
@@ -85,7 +87,8 @@ public class Fabric : MonoBehaviour
         _fabricFill.TryFillWoodOnFabric -= TryGetWoodFromPlayer;
         _playerInventory.AddOreToFabric -= AddOre;
         _playerInventory.AddWoodToFabric -= AddWood;
-        _fabricCollect.TryCollectIngotOnFabric -=  
+        _fabricCollect.TryCollectIngotOnFabric -= TryCollectIngotFromFabric;
+        _fabricCollect.TryCollectPlankOnFabric -= TryCollectPlankFromFabric;
     }
 
     private void TryGetOreFromPlayer()
@@ -112,6 +115,32 @@ public class Fabric : MonoBehaviour
 
     private void TryCollectIngotFromFabric()
     {
-        
+        if (_ironIngotAmountOnFabric > 0 && _ironIngotAmountOnFabric <= _playerInventory.MaxIngotInInventory)
+        {
+            AddIngotToInventory?.Invoke(_ironIngotAmountOnFabric);
+            _ironIngotAmountOnFabric = 0;
+            IngotsAmountChanged?.Invoke(_ironIngotAmountOnFabric);
+        }
+        else if (_ironIngotAmountOnFabric > 0 && _ironIngotAmountOnFabric > _playerInventory.MaxIngotInInventory)
+        {
+            AddIngotToInventory?.Invoke(_playerInventory.MaxIngotInInventory);
+            _ironIngotAmountOnFabric -= _playerInventory.MaxIngotInInventory;
+            IngotsAmountChanged?.Invoke(_ironIngotAmountOnFabric);
+        }
+    }
+    private void TryCollectPlankFromFabric()
+    {
+        if (_woodPlanksAmountOnFabric > 0 && _woodPlanksAmountOnFabric <= _playerInventory.MaxPlankInInventory)
+        {
+            AddPlankToInventory?.Invoke(_woodPlanksAmountOnFabric);
+            _woodPlanksAmountOnFabric = 0;
+            PlanksAmountChanged?.Invoke(_ironIngotAmountOnFabric);
+        }
+        else if (_woodPlanksAmountOnFabric > 0 && _woodPlanksAmountOnFabric > _playerInventory.MaxPlankInInventory)
+        {
+            AddPlankToInventory?.Invoke(_playerInventory.MaxPlankInInventory);
+            _woodPlanksAmountOnFabric -= _playerInventory.MaxPlankInInventory;
+            PlanksAmountChanged?.Invoke(_woodPlanksAmountOnFabric);
+        }
     }
 }

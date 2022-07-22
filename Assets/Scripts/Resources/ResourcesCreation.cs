@@ -29,13 +29,6 @@ public class ResourcesCreation : MonoBehaviour
     private float _currentOreTime;
     private float _currentWoodTime;
 
-    private void Start()
-    {
-        Load();
-        OreAmountChanged?.Invoke(_amountOfOre);
-        WoodAmountChanged?.Invoke(_amountOfWood);
-    }
-
     private void FixedUpdate()
     {
         _currentOreTime += Time.fixedDeltaTime;
@@ -46,14 +39,12 @@ public class ResourcesCreation : MonoBehaviour
             _amountOfOre++;
             _currentOreTime = 0;
             OreAmountChanged?.Invoke(_amountOfOre);
-            Save();
         }
         if (_currentWoodTime >= _timeBetweenWoodSpawn && _amountOfWood < _maxAmountOfWood)
         {
             _amountOfWood++;
             _currentWoodTime = 0;
             WoodAmountChanged?.Invoke(_amountOfWood);
-            Save();
         }
         if (_amountOfOre > _maxAmountOfOre)
         {
@@ -75,18 +66,7 @@ public class ResourcesCreation : MonoBehaviour
         _collectResource.OreCollected -= CollectOre;
         _collectResource.WoodCollected -= CollectWood;
     }
-
-    private void Save()
-    {
-        PlayerPrefs.SetInt("OreAmount", _amountOfOre);
-        PlayerPrefs.SetInt("WoodAmount", _amountOfWood);
-    }
-    private void Load()
-    {
-        _amountOfOre = PlayerPrefs.GetInt("OreAmount");
-        _amountOfWood = PlayerPrefs.GetInt("WoodAmount");
-    }
-
+    
     private void CollectOre()
     {
         if (_amountOfOre > 0 && _amountOfOre <= _playerInventory.MaxOreInInventory)
