@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,13 +6,17 @@ public class Player : MonoBehaviour
 
     [SerializeField] private PlayerMovement _playerMovement;
 
+    [SerializeField] private GameObject _box;
+
     private void PlayerRun(bool isPlayerRunning)
     {
         _animator.SetBool("IsRunning", isPlayerRunning);
+        _box.SetActive(false);
     }
     private void PlayerIdleingWithBoxes(bool isPlayerIdleingWithBoxes)
     {
         _animator.SetBool("IsCarrying", isPlayerIdleingWithBoxes);
+        _box.SetActive(true);
     }
     private void PlayerRunningWithBoxes(bool isPlayerRunningWithBoxes)
     {

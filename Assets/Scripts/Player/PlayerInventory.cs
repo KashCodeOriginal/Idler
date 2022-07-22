@@ -16,7 +16,11 @@ public class PlayerInventory : MonoBehaviour
     public int OreAmount => _oreAmount;
     
     public int WoodAmount => _woodAmount;
-    
+
+    private void Start()
+    {
+        //Load();
+    }
     private void OnEnable()
     {
         _resourcesCreation.OreIsCollected += AddOre;
@@ -32,10 +36,24 @@ public class PlayerInventory : MonoBehaviour
     private void AddOre(int value)
     {
         _oreAmount += value;
+        Save();
     }
 
     private void AddWood(int value)
     {
         _woodAmount += value;
+        Save();
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetInt("InventoryOreAmount", _oreAmount);
+        PlayerPrefs.SetInt("InventoryWoodAmount", _woodAmount);
+    }
+
+    private void Load()
+    {
+        _oreAmount = PlayerPrefs.GetInt("InventoryOreAmount");
+        _woodAmount = PlayerPrefs.GetInt("InventoryWoodAmount");
     }
 }

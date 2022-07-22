@@ -30,7 +30,9 @@ public class ResourcesCreation : MonoBehaviour
 
     private void Start()
     {
-        //Load();
+        Load();
+        OreAmountChanged?.Invoke(_amountOfOre);
+        WoodAmountChanged?.Invoke(_amountOfWood);
     }
 
     private void FixedUpdate()
