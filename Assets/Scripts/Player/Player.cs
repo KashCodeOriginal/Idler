@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _box;
 
-    [SerializeField] private EntryCollider _entryCollider;
+    [SerializeField] private Fabric _fabric;
 
     private void PlayerRun(bool isPlayerRunning)
     {
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsRunning += PlayerRun;
         _playerMovement.PlayerIsIdleingWithResources += PlayerIdleingWithBoxes;
         _playerMovement.PlayerIsRunningWithResources += PlayerRunningWithBoxes;
-        _entryCollider.PlacingBox += PlayerPlacingBox;
+        _fabric.PlacingBox += PlayerPlacingBox;
     }
 
     private void OnDisable()
@@ -42,6 +42,6 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsRunning -= PlayerRun;
         _playerMovement.PlayerIsIdleingWithResources -= PlayerIdleingWithBoxes;
         _playerMovement.PlayerIsRunningWithResources -= PlayerRunningWithBoxes;
-        _entryCollider.PlacingBox -= PlayerPlacingBox;
+        _fabric.PlacingBox -= PlayerPlacingBox;
     }
 }

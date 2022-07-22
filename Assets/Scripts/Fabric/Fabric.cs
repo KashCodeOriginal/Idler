@@ -22,10 +22,7 @@ public class Fabric : MonoBehaviour
 
     [SerializeField] private float _timeBetweenIngotsSmelting;
     [SerializeField] private float _timeBetweenPlanksProcessing;
-
-    [SerializeField] private Image _ironArrow;
-    [SerializeField] private Image _woodArrow;
-
+    
     private float _currentTimeBetweenIngots;
     private float _currentTimeBetweenPlanks;
 
@@ -40,6 +37,8 @@ public class Fabric : MonoBehaviour
     
     public event UnityAction<int> IngotsAmountChanged;
     public event UnityAction<int> PlanksAmountChanged;
+
+    public event UnityAction PlacingBox;
     
     private void FixedUpdate()
     {
@@ -78,6 +77,7 @@ public class Fabric : MonoBehaviour
         _fabricFill.TryFillWoodOnFabric += TryGetWoodFromPlayer;
         _playerInventory.AddOreToFabric += AddOre;
         _playerInventory.AddWoodToFabric += AddWood;
+        _fabricCollect.TryCollectIngotOnFabric += 
     }
     private void OnDisable()
     {
@@ -85,6 +85,7 @@ public class Fabric : MonoBehaviour
         _fabricFill.TryFillWoodOnFabric -= TryGetWoodFromPlayer;
         _playerInventory.AddOreToFabric -= AddOre;
         _playerInventory.AddWoodToFabric -= AddWood;
+        _fabricCollect.TryCollectIngotOnFabric -=  
     }
 
     private void TryGetOreFromPlayer()
@@ -100,10 +101,17 @@ public class Fabric : MonoBehaviour
     {
         _oreAmountOnFabric += value;
         OreAmountChanged?.Invoke(_oreAmountOnFabric);
+        PlacingBox?.Invoke();
     }
     private void AddWood(int value)
     {
         _woodAmountOnFabric += value;
         WoodAmountChanged?.Invoke(_woodAmountOnFabric);
+        PlacingBox?.Invoke();
+    }
+
+    private void TryCollectIngotFromFabric()
+    {
+        
     }
 }

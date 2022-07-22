@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FabricCollect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public event UnityAction TryCollectIngotOnFabric;
+    public event UnityAction TryCollectPlankOnFabric;
+    
+    public void TryCollectIngot()
     {
-        
+        TryCollectIngotOnFabric?.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TryCollectPlank()
     {
-        
+        TryCollectPlankOnFabric?.Invoke();
     }
 }

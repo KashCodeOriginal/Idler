@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
 
     [SerializeField] private PlayerInventory _playerInventory;
+
+    [SerializeField] private ResourcesCreation _resourcesCreation;
 
     public event UnityAction<bool> PlayerIsRunning;
     public event UnityAction<bool> PlayerIsIdleingWithResources;
@@ -38,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                PlayerIsRunningWithResources?.Invoke(false);
+                PlayerIsIdleingWithResources?.Invoke(false);
                 PlayerIsRunning?.Invoke(false);
             }
         }

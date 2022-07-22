@@ -1,12 +1,9 @@
-
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EntryCollider : MonoBehaviour
 {
     [SerializeField] private GameObject _buildingInterface;
-    public event UnityAction PlacingBox;
-        
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.GetComponent<Player>() == true)
@@ -15,11 +12,6 @@ public class EntryCollider : MonoBehaviour
             for (int i = 0; i < _buildingInterface.transform.childCount; i++)
             {
                 _buildingInterface.transform.GetChild(i).gameObject.SetActive(true);
-            }
-
-            if (_buildingInterface.tag == "Fabric")
-            {
-                PlacingBox?.Invoke();
             }
         }
     }
