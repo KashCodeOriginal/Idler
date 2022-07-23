@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,11 +19,11 @@ public class ResourcesCreation : MonoBehaviour
 
     [SerializeField] private PlayerInventory _playerInventory;
     
-    public event Action<int> OreAmountChanged;
-    public event Action<int> WoodAmountChanged;
+    public event UnityAction<int> OreAmountChanged;
+    public event UnityAction<int> WoodAmountChanged;
 
-    public event Action<int> OreIsCollected;
-    public event Action<int> WoodIsCollected;
+    public event UnityAction<int> OreIsCollected;
+    public event UnityAction<int> WoodIsCollected;
     
     private float _currentOreTime;
     private float _currentWoodTime;
@@ -69,32 +68,10 @@ public class ResourcesCreation : MonoBehaviour
     
     private void CollectOre()
     {
-        if (_amountOfOre > 0 && _amountOfOre <= _playerInventory.MaxOreInInventory)
-        {
-            OreIsCollected?.Invoke(_amountOfOre);
-            _amountOfOre = 0;
-            OreAmountChanged?.Invoke(_amountOfOre);
-        }
-        else if (_amountOfOre > 0 && _amountOfOre > _playerInventory.MaxOreInInventory)
-        {
-            _amountOfOre -= _playerInventory.MaxOreInInventory;
-            OreIsCollected?.Invoke(_playerInventory.MaxOreInInventory);
-            OreAmountChanged?.Invoke(_amountOfOre);
-        }
+        _playerInventory.TryGetItemValue(ref _amountOfOre, _playerInventory.MaxOreInInventory, OreIsCollected, OreAmountChanged);
     }
     private void CollectWood()
     {
-        if (_amountOfWood > 0 && _amountOfWood <= _playerInventory.MaxWoodInInventory)
-        {
-            WoodIsCollected?.Invoke(_amountOfWood);
-            _amountOfWood = 0;
-            WoodAmountChanged?.Invoke(_amountOfWood);
-        }
-        else if (_amountOfWood > 0 && _amountOfWood > _playerInventory.MaxWoodInInventory)
-        {
-            _amountOfWood -= _playerInventory.MaxWoodInInventory;
-            WoodIsCollected?.Invoke(_playerInventory.MaxWoodInInventory);
-            WoodAmountChanged?.Invoke(_amountOfWood);
-        }
+        _playerInventory.TryGetItemValue(ref _amountOfWood, _playerInventory.MaxWoodInInventory, WoodIsCollected, WoodAmountChanged);
     }
 }

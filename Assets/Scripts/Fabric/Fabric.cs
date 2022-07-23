@@ -48,27 +48,13 @@ public class Fabric : MonoBehaviour
         {
             _currentTimeBetweenIngots += Time.fixedDeltaTime;
             
-            if (_currentTimeBetweenIngots >= _timeBetweenIngotsSmelting)
-            {
-                _oreAmountOnFabric--;
-                _ironIngotAmountOnFabric++;
-                OreAmountChanged?.Invoke(_oreAmountOnFabric);
-                IngotsAmountChanged?.Invoke(_ironIngotAmountOnFabric);
-                _currentTimeBetweenIngots = 0;
-            }
+            ProcessItem(ref _currentTimeBetweenIngots, _timeBetweenIngotsSmelting, ref _oreAmountOnFabric, ref _ironIngotAmountOnFabric, OreAmountChanged, IngotsAmountChanged);
         }
         if (_woodAmountOnFabric > 0 && _woodAmountOnFabric <= _maxWoodAmountOnFabric && _woodPlanksAmountOnFabric < _maxWoodPlanksAmountOnFabric)
         {
             _currentTimeBetweenPlanks += Time.fixedDeltaTime;
-
-            if (_currentTimeBetweenPlanks >= _timeBetweenPlanksProcessing)
-            {
-                _woodAmountOnFabric--;
-                _woodPlanksAmountOnFabric++;
-                WoodAmountChanged?.Invoke(_woodAmountOnFabric);
-                PlanksAmountChanged?.Invoke(_woodPlanksAmountOnFabric);
-                _currentTimeBetweenPlanks = 0;
-            }
+            
+            ProcessItem(ref _currentTimeBetweenPlanks, _timeBetweenPlanksProcessing, ref _woodAmountOnFabric, ref _woodPlanksAmountOnFabric, WoodAmountChanged, PlanksAmountChanged);
         }
     }
     
@@ -115,32 +101,22 @@ public class Fabric : MonoBehaviour
 
     private void TryCollectIngotFromFabric()
     {
-        if (_ironIngotAmountOnFabric > 0 && _ironIngotAmountOnFabric <= _playerInventory.MaxIngotInInventory)
-        {
-            AddIngotToInventory?.Invoke(_ironIngotAmountOnFabric);
-            _ironIngotAmountOnFabric = 0;
-            IngotsAmountChanged?.Invoke(_ironIngotAmountOnFabric);
-        }
-        else if (_ironIngotAmountOnFabric > 0 && _ironIngotAmountOnFabric > _playerInventory.MaxIngotInInventory)
-        {
-            AddIngotToInventory?.Invoke(_playerInventory.MaxIngotInInventory);
-            _ironIngotAmountOnFabric -= _playerInventory.MaxIngotInInventory;
-            IngotsAmountChanged?.Invoke(_ironIngotAmountOnFabric);
-        }
+        _playerInventory.TryGetItemValue(ref _ironIngotAmountOnFabric, _playerInventory.MaxIngotInInventory, AddIngotToInventory, IngotsAmountChanged);
     }
     private void TryCollectPlankFromFabric()
     {
-        if (_woodPlanksAmountOnFabric > 0 && _woodPlanksAmountOnFabric <= _playerInventory.MaxPlankInInventory)
+        _playerInventory.TryGetItemValue(ref _woodPlanksAmountOnFabric, _playerInventory.MaxPlankInInventory, AddPlankToInventory, PlanksAmountChanged);
+    }
+
+    private void ProcessItem(ref float currentTime, float timeBetweenProcessing,ref int inputItem,ref int outputItem, UnityAction<int> inputItemAmountChange,UnityAction<int> outputItemAmountChange)
+    {
+        if (currentTime >= timeBetweenProcessing)
         {
-            AddPlankToInventory?.Invoke(_woodPlanksAmountOnFabric);
-            _woodPlanksAmountOnFabric = 0;
-            PlanksAmountChanged?.Invoke(_ironIngotAmountOnFabric);
-        }
-        else if (_woodPlanksAmountOnFabric > 0 && _woodPlanksAmountOnFabric > _playerInventory.MaxPlankInInventory)
-        {
-            AddPlankToInventory?.Invoke(_playerInventory.MaxPlankInInventory);
-            _woodPlanksAmountOnFabric -= _playerInventory.MaxPlankInInventory;
-            PlanksAmountChanged?.Invoke(_woodPlanksAmountOnFabric);
+            inputItem--;
+            outputItem++;
+            inputItemAmountChange?.Invoke(inputItem);
+            outputItemAmountChange?.Invoke(outputItem);
+            currentTime = 0;
         }
     }
 }

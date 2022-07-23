@@ -1,13 +1,14 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class StorageSwitcher : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _items;
+    [SerializeField] private Storage _storage;
     
     [SerializeField] private int _currentItemId;
 
+    public int CurrentItemId => _currentItemId;
+    
     public event UnityAction<int> ItemChanged;
 
     private void Start()
@@ -17,34 +18,33 @@ public class StorageSwitcher : MonoBehaviour
 
     private void ChangeItem(int value)
     {
-        if (_currentItemId >= _items.Count - 1 && value != -1)
+        if (_currentItemId >= _storage.ItemContainer.childCount - 1 && value != -1)
         {
             _currentItemId = 0;
-            _items[_items.Count - 1].SetActive(false);
+            _storage.ItemContainer.GetChild(_storage.ItemContainer.childCount - 1).gameObject.SetActive(false);
         }
         else if (_currentItemId <= 0 && value != 1)
         {
-            _items[_currentItemId].SetActive(false);
-            _currentItemId = _items.Count - 1;
+            _storage.ItemContainer.GetChild(_currentItemId).gameObject.SetActive(false);
+            _currentItemId = _storage.ItemContainer.childCount - 1;
         }
         else
         {
             _currentItemId += value;
             if (value == -1)
             {
-                _items[_currentItemId + 1].SetActive(false);
+                _storage.ItemContainer.GetChild(_currentItemId + 1).gameObject.SetActive(false);
             }
             else if (value == 1)
             {
-                _items[_currentItemId - 1].SetActive(false);
+                _storage.ItemContainer.GetChild(_currentItemId - 1).gameObject.SetActive(false);
             }
         }
-        _items[_currentItemId].SetActive(true);
+        _storage.ItemContainer.GetChild(_currentItemId).gameObject.SetActive(true);
         ItemChanged?.Invoke(_currentItemId);
-    }
-
+        }
     public void NextItem()
-    {
+    { 
         ChangeItem(1);
     }
 

@@ -11,9 +11,17 @@ public class ResourceDisplay : MonoBehaviour
     
     [SerializeField] private TMP_Text _ingotsOnFabricValueText;
     [SerializeField] private TMP_Text _planksOnFabricValueText;
+    
+    [SerializeField] private TMP_Text _oreInStorageValueText;
+    [SerializeField] private TMP_Text _woodInStorageValueText;
+    
+    [SerializeField] private TMP_Text _ingotsInStorageValueText;
+    [SerializeField] private TMP_Text _planksInStorageValueText;
+
 
     [SerializeField] private ResourcesCreation resourcesCreation;
     [SerializeField] private Fabric _fabric;
+    [SerializeField] private Storage _storage;
 
     private void OnEnable()
     {
@@ -23,6 +31,10 @@ public class ResourceDisplay : MonoBehaviour
         _fabric.WoodAmountChanged += ChangeFabricWoodValue;
         _fabric.IngotsAmountChanged += ChangeFabricIngotsValue;
         _fabric.PlanksAmountChanged += ChangeFabricPlanksValue;
+        _storage.OreStorageAmountChanged += ChangeStorageOreValue;
+        _storage.WoodStorageAmountChanged += ChangeStorageWoodValue;
+        _storage.IngotStorageAmountChanged += ChangeStorageIngotsValue;
+        _storage.PlankStorageAmountChanged += ChangeStoragePlanksValue;
     }
     private void OnDisable()
     {
@@ -32,6 +44,10 @@ public class ResourceDisplay : MonoBehaviour
         _fabric.WoodAmountChanged -= ChangeFabricWoodValue;
         _fabric.IngotsAmountChanged -= ChangeFabricIngotsValue;
         _fabric.PlanksAmountChanged -= ChangeFabricPlanksValue;
+        _storage.OreStorageAmountChanged -= ChangeStorageOreValue;
+        _storage.WoodStorageAmountChanged -= ChangeStorageWoodValue;
+        _storage.IngotStorageAmountChanged -= ChangeStorageIngotsValue;
+        _storage.PlankStorageAmountChanged -= ChangeStoragePlanksValue;
     }
 
     private void ChangeOreValue(int value)
@@ -57,5 +73,21 @@ public class ResourceDisplay : MonoBehaviour
     private void ChangeFabricPlanksValue(int value)
     {
         _planksOnFabricValueText.text = value.ToString();
+    }
+    private void ChangeStorageOreValue(int value)
+    {
+        _oreInStorageValueText.text = value.ToString();
+    }
+    private void ChangeStorageWoodValue(int value)
+    {
+        _woodInStorageValueText.text = value.ToString();
+    }
+    private void ChangeStorageIngotsValue(int value)
+    {
+        _ingotsInStorageValueText.text = value.ToString();
+    }
+    private void ChangeStoragePlanksValue(int value)
+    {
+        _planksInStorageValueText.text = value.ToString();
     }
 }
