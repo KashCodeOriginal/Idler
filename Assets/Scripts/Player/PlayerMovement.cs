@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
         {   
             transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
             
-            if (_playerInventory.OreAmount > 0 || _playerInventory.WoodAmount > 0)
+            if (_playerInventory.OreAmount > 0 || _playerInventory.WoodAmount > 0 || _playerInventory.IngotAmount > 0 || _playerInventory.PlankAmount > 0)
             {
                 PlayerIsIdleingWithResources?.Invoke(false);
                 PlayerIsRunningWithResources?.Invoke(true);
@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (_playerInventory.OreAmount > 0 || _playerInventory.WoodAmount > 0)
+            if (_playerInventory.OreAmount > 0 || _playerInventory.WoodAmount > 0 || _playerInventory.IngotAmount > 0 || _playerInventory.PlankAmount > 0)
             {
                 PlayerIsRunningWithResources?.Invoke(false);
                 PlayerIsIdleingWithResources?.Invoke(true);

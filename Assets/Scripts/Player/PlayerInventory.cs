@@ -9,6 +9,8 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private StorageFill _storageFill;
 
+    [SerializeField] private Storage _storage;
+
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
     
@@ -30,6 +32,10 @@ public class PlayerInventory : MonoBehaviour
     public int OreAmount => _oreAmount;
     
     public int WoodAmount => _woodAmount;
+    
+    public int IngotAmount => _ingotAmount;
+    
+    public int PlankAmount => _plankAmount;
 
     public event UnityAction<int> AddOreToFabric;
     public event UnityAction<int> AddWoodToFabric;
@@ -43,29 +49,38 @@ public class PlayerInventory : MonoBehaviour
     public event UnityAction<int> IngotAmountInventoryChanged;
     public event UnityAction<int> WoodAmountInventoryChanged;
     public event UnityAction<int> PlankAmountInventoryChanged;
-    
+
     private void OnEnable()
     {
         _resourcesCreation.OreIsCollected += AddOre;
         _resourcesCreation.WoodIsCollected += AddWood;
+        
         _fabric.TryGetOre += GetOreAmountForFabric;
         _fabric.TryGetWood += GetWoodAmountForFabric;
         _fabric.AddIngotToInventory += AddIngot;
         _fabric.AddPlankToInventory += AddPlank;
+        
         _storageFill.TryGetOreInventoryValue += GetOreAmountForStorage;
         _storageFill.TryGetWoodInventoryValue += GetWoodAmountForStorage;
         _storageFill.TryGetIngotInventoryValue += GetIngotAmountForStorage;
         _storageFill.TryGetPlankInventoryValue += GetPlankAmountForStorage;
+
+        _storage.AddOreToInventory += AddOre;
+        _storage.AddWoodToInventory += AddWood;
+        _storage.AddIngotToInventory += AddIngot;
+        _storage.AddPlankToInventory += AddPlank;
     }
 
     private void OnDisable()
     {
         _resourcesCreation.OreIsCollected -= AddOre;
         _resourcesCreation.WoodIsCollected -= AddWood;
+        
         _fabric.TryGetOre -= GetOreAmountForFabric;
         _fabric.TryGetWood -= GetWoodAmountForFabric;
         _fabric.AddIngotToInventory -= AddIngot;
         _fabric.AddPlankToInventory -= AddPlank;
+        
         _storageFill.TryGetOreInventoryValue -= GetOreAmountForStorage;
         _storageFill.TryGetWoodInventoryValue -= GetWoodAmountForStorage;
         _storageFill.TryGetIngotInventoryValue -= GetIngotAmountForStorage;
@@ -148,7 +163,6 @@ public class PlayerInventory : MonoBehaviour
             TryGetItemValue(ref _plankAmount,value, maxAmountInStorage, AddPlankToStorage, PlankAmountInventoryChanged);
         }
     }
-
     public void TryGetItemValue(ref int itemAmount,int maxAmount, UnityAction<int> addItem, UnityAction<int> itemValueChanged)
     {
         if (itemAmount > 0 && itemAmount <= maxAmount)
@@ -167,7 +181,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void TryGetItemValue(ref int itemAmount,int currentValueAmount, int maxAmount, UnityAction<int> addItem, UnityAction<int> itemValueChanged)
     {
-        if (itemAmount > 0 && currentValueAmount <= maxAmount)
+        if (itemAmount > 0 && currentValueAmount <= maxAmount && itemAmount - currentValueAmount  >= 0)
         {
             itemAmount -= currentValueAmount;
             addItem?.Invoke(currentValueAmount);

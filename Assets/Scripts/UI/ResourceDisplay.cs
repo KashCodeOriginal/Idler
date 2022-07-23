@@ -17,8 +17,7 @@ public class ResourceDisplay : MonoBehaviour
     
     [SerializeField] private TMP_Text _ingotsInStorageValueText;
     [SerializeField] private TMP_Text _planksInStorageValueText;
-
-
+    
     [SerializeField] private ResourcesCreation resourcesCreation;
     [SerializeField] private Fabric _fabric;
     [SerializeField] private Storage _storage;

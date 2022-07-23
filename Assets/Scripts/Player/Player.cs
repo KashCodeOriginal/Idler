@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Fabric _fabric;
 
+    [SerializeField] private Storage _storage;
+
     private void PlayerRun(bool isPlayerRunning)
     {
         _animator.SetBool("IsRunning", isPlayerRunning);
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsIdleingWithResources += PlayerIdleingWithBoxes;
         _playerMovement.PlayerIsRunningWithResources += PlayerRunningWithBoxes;
         _fabric.PlacingBox += PlayerPlacingBox;
+        _storage.PlacingBox += PlayerPlacingBox;
     }
 
     private void OnDisable()
@@ -43,5 +46,6 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsIdleingWithResources -= PlayerIdleingWithBoxes;
         _playerMovement.PlayerIsRunningWithResources -= PlayerRunningWithBoxes;
         _fabric.PlacingBox -= PlayerPlacingBox;
+        _storage.PlacingBox -= PlayerPlacingBox;
     }
 }
