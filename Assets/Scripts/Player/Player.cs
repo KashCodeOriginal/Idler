@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -10,15 +11,19 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Storage _storage;
 
+    [SerializeField] private SellToMarket _sellToMarket;
+
+    [SerializeField] private int _coins;
+    
+    public event UnityAction<int> ChangeCoinsAmount;
+
     private void PlayerRun(bool isPlayerRunning)
     {
         _animator.SetBool("IsRunning", isPlayerRunning);
-        _box.SetActive(false);
     }
     private void PlayerIdleingWithBoxes(bool isPlayerIdleingWithBoxes)
     {
         _animator.SetBool("IsCarrying", isPlayerIdleingWithBoxes);
-        _box.SetActive(true);
     }
     private void PlayerRunningWithBoxes(bool isPlayerRunningWithBoxes)
     {
@@ -36,6 +41,10 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsRunningWithResources += PlayerRunningWithBoxes;
         _fabric.PlacingBox += PlayerPlacingBox;
         _storage.PlacingBox += PlayerPlacingBox;
+        
+        _sellToMarket.CoinsAmountChanged += AddCoins;
+
+        _sellToMarket.PlacingBox += PlayerPlacingBox;
     }
 
     private void OnDisable()
@@ -45,5 +54,15 @@ public class Player : MonoBehaviour
         _playerMovement.PlayerIsRunningWithResources -= PlayerRunningWithBoxes;
         _fabric.PlacingBox -= PlayerPlacingBox;
         _storage.PlacingBox -= PlayerPlacingBox;
+        
+        _sellToMarket.CoinsAmountChanged -= AddCoins;
+        
+        _sellToMarket.PlacingBox -= PlayerPlacingBox;
+    }
+    
+    private void AddCoins(int value)
+    {
+        _coins += value;
+        ChangeCoinsAmount?.Invoke(_coins);
     }
 }

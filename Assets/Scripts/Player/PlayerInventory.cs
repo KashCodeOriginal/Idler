@@ -11,6 +11,8 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private Storage _storage;
 
+    [SerializeField] private SellToMarket _sellToMarket;
+
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
     
@@ -50,6 +52,11 @@ public class PlayerInventory : MonoBehaviour
     public event UnityAction<int> WoodAmountInventoryChanged;
     public event UnityAction<int> PlankAmountInventoryChanged;
 
+    public event UnityAction<int> SellOre;
+    public event UnityAction<int> SellWood;
+    public event UnityAction<int> SellIngot;
+    public event UnityAction<int> SellPlank;
+    
     private void OnEnable()
     {
         _resourcesCreation.OreIsCollected += AddOre;
@@ -69,6 +76,11 @@ public class PlayerInventory : MonoBehaviour
         _storage.AddWoodToInventory += AddWood;
         _storage.AddIngotToInventory += AddIngot;
         _storage.AddPlankToInventory += AddPlank;
+
+        _sellToMarket.GetOreValueInInventory += TrySellOre;
+        _sellToMarket.GetWoodValueInInventory += TrySellWood;
+        _sellToMarket.GetIngotValueInInventory += TrySellIngot;
+        _sellToMarket.GetPlankValueInInventory += TrySellPlank;
     }
 
     private void OnDisable()
@@ -85,6 +97,16 @@ public class PlayerInventory : MonoBehaviour
         _storageFill.TryGetWoodInventoryValue -= GetWoodAmountForStorage;
         _storageFill.TryGetIngotInventoryValue -= GetIngotAmountForStorage;
         _storageFill.TryGetPlankInventoryValue -= GetPlankAmountForStorage;
+        
+        _storage.AddOreToInventory -= AddOre;
+        _storage.AddWoodToInventory -= AddWood;
+        _storage.AddIngotToInventory -= AddIngot;
+        _storage.AddPlankToInventory -= AddPlank;
+
+        _sellToMarket.GetOreValueInInventory -= TrySellOre;
+        _sellToMarket.GetWoodValueInInventory -= TrySellWood;
+        _sellToMarket.GetIngotValueInInventory -= TrySellIngot;
+        _sellToMarket.GetPlankValueInInventory -= TrySellPlank;
     }
 
     private void AddOre(int value)
@@ -108,6 +130,43 @@ public class PlayerInventory : MonoBehaviour
     {
         _plankAmount += value;
         PlankAmountInventoryChanged?.Invoke(_plankAmount);
+    }
+
+    private void TrySellOre()
+    {
+        if (_oreAmount > 0)
+        {
+            SellOre?.Invoke(_oreAmount);
+            _oreAmount = 0;
+            OreAmountInventoryChanged?.Invoke(_oreAmount);
+        }
+    }
+    private void TrySellWood()
+    {
+        if (_woodAmount > 0)
+        {
+            SellWood?.Invoke(_woodAmount);
+            _woodAmount = 0;
+            WoodAmountInventoryChanged?.Invoke(_woodAmount);
+        }
+    }
+    private void TrySellIngot()
+    {
+        if (_ingotAmount > 0)
+        {
+            SellIngot?.Invoke(_ingotAmount);
+            _ingotAmount = 0;
+            IngotAmountInventoryChanged?.Invoke(_ingotAmount);
+        }
+    }
+    private void TrySellPlank()
+    {
+        if (_plankAmount > 0)
+        {
+            SellPlank?.Invoke(_plankAmount);
+            _plankAmount = 0;
+            PlankAmountInventoryChanged?.Invoke(_plankAmount);
+        }
     }
 
     private void GetOreAmountForFabric()
