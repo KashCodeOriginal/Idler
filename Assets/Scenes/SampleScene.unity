@@ -8814,10 +8814,10 @@ MonoBehaviour:
   _woodAmount: 0
   _ingotAmount: 0
   _plankAmount: 0
-  _maxAmountOfOreInStorage: 30
-  _maxAmountOfWoodInStorage: 30
-  _maxAmountOfIngotInStorage: 30
-  _maxAmountOfPlankInStorage: 30
+  _maxAmountOfOreInStorage: 20
+  _maxAmountOfWoodInStorage: 20
+  _maxAmountOfIngotInStorage: 20
+  _maxAmountOfPlankInStorage: 20
 --- !u!114 &1179837426
 MonoBehaviour:
   m_ObjectHideFlags: 0
