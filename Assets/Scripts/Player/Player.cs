@@ -5,9 +5,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     [SerializeField] private PlayerMovement _playerMovement;
-
-    [SerializeField] private GameObject _box;
-
+    
     [SerializeField] private Fabric _fabric;
 
     [SerializeField] private Storage _storage;
