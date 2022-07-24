@@ -15,12 +15,10 @@ public class Player : MonoBehaviour
     private void PlayerRun(bool isPlayerRunning)
     {
         _animator.SetBool("IsRunning", isPlayerRunning);
-        _box.SetActive(false);
     }
     private void PlayerIdleingWithBoxes(bool isPlayerIdleingWithBoxes)
     {
         _animator.SetBool("IsCarrying", isPlayerIdleingWithBoxes);
-        _box.SetActive(true);
     }
     private void PlayerRunningWithBoxes(bool isPlayerRunningWithBoxes)
     {
