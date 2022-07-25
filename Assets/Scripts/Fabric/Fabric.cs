@@ -7,6 +7,8 @@ public class Fabric : MonoBehaviour
     [SerializeField] private FabricCollect _fabricCollect;
     [SerializeField] private PlayerInventory _playerInventory;
 
+    [SerializeField] private Upgrade _upgrade;
+
     [SerializeField] private int _oreAmountOnFabric;
     [SerializeField] private int _maxOreAmountOnFabric;
     
@@ -62,19 +64,29 @@ public class Fabric : MonoBehaviour
     {
         _fabricFill.TryFillOreOnFabric += TryGetOreFromPlayer;
         _fabricFill.TryFillWoodOnFabric += TryGetWoodFromPlayer;
+        
         _playerInventory.AddOreToFabric += AddOre;
         _playerInventory.AddWoodToFabric += AddWood;
+        
         _fabricCollect.TryCollectIngotOnFabric += TryCollectIngotFromFabric;
         _fabricCollect.TryCollectPlankOnFabric += TryCollectPlankFromFabric;
+
+        _upgrade.UpgradeOreFabric += UpgradeOreFabricSpeed;
+        _upgrade.UpgradeWoodFabric += UpgradeWoodFabricSpeed;
     }
     private void OnDisable()
     {
         _fabricFill.TryFillOreOnFabric -= TryGetOreFromPlayer;
         _fabricFill.TryFillWoodOnFabric -= TryGetWoodFromPlayer;
+        
         _playerInventory.AddOreToFabric -= AddOre;
         _playerInventory.AddWoodToFabric -= AddWood;
+        
         _fabricCollect.TryCollectIngotOnFabric -= TryCollectIngotFromFabric;
         _fabricCollect.TryCollectPlankOnFabric -= TryCollectPlankFromFabric;
+        
+        _upgrade.UpgradeOreFabric -= UpgradeOreFabricSpeed;
+        _upgrade.UpgradeWoodFabric -= UpgradeWoodFabricSpeed;
     }
 
     private void TryGetOreFromPlayer()
@@ -117,6 +129,37 @@ public class Fabric : MonoBehaviour
             inputItemAmountChange?.Invoke(inputItem);
             outputItemAmountChange?.Invoke(outputItem);
             currentTime = 0;
+        }
+    }
+
+    private void UpgradeOreFabricSpeed()
+    {
+        if (_timeBetweenIngotsSmelting <= 1)
+        {
+            _timeBetweenIngotsSmelting -= 0.1f;
+        }
+        else if (_timeBetweenIngotsSmelting <= 0.3)
+        {
+            _timeBetweenIngotsSmelting -= 0.05f;
+        }
+        else
+        {
+            _timeBetweenIngotsSmelting -= 1;
+        }
+    }
+    private void UpgradeWoodFabricSpeed()
+    {
+        if (_timeBetweenPlanksProcessing <= 1)
+        {
+            _timeBetweenPlanksProcessing -= 0.1f;
+        }
+        else if (_timeBetweenPlanksProcessing <= 0.3)
+        {
+            _timeBetweenPlanksProcessing -= 0.05f;
+        }
+        else
+        {
+            _timeBetweenPlanksProcessing -= 1;
         }
     }
 }

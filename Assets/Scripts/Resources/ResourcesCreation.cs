@@ -18,6 +18,8 @@ public class ResourcesCreation : MonoBehaviour
     [SerializeField] private CollectResource _collectResource;
 
     [SerializeField] private PlayerInventory _playerInventory;
+
+    [SerializeField] private Upgrade _upgrade;
     
     public event UnityAction<int> OreAmountChanged;
     public event UnityAction<int> WoodAmountChanged;
@@ -59,11 +61,17 @@ public class ResourcesCreation : MonoBehaviour
     {
         _collectResource.OreCollected += CollectOre;
         _collectResource.WoodCollected += CollectWood;
+
+        _upgrade.UpgradeMine += UpgradeOreCollection;
+        _upgrade.UpgradeWood += UpgradeWoodCollection;
     }
     private void OnDisable()
     {
         _collectResource.OreCollected -= CollectOre;
         _collectResource.WoodCollected -= CollectWood;
+        
+        _upgrade.UpgradeMine -= UpgradeOreCollection;
+        _upgrade.UpgradeWood -= UpgradeWoodCollection;
     }
     
     private void CollectOre()
@@ -73,5 +81,36 @@ public class ResourcesCreation : MonoBehaviour
     private void CollectWood()
     {
         _playerInventory.TryGetItemValue(ref _amountOfWood, _playerInventory.MaxWoodInInventory, WoodIsCollected, WoodAmountChanged);
+    }
+
+    private void UpgradeOreCollection()
+    {
+        if (_timeBetweenOreSpawn <= 1)
+        {
+            _timeBetweenOreSpawn -= 0.1f;
+        }
+        else if (_timeBetweenOreSpawn <= 0.3)
+        {
+            _timeBetweenOreSpawn -= 0.05f;
+        }
+        else
+        {
+            _timeBetweenOreSpawn -= 1;
+        }
+    }
+    private void UpgradeWoodCollection()
+    {
+        if (_timeBetweenWoodSpawn <= 1)
+        {
+            _timeBetweenWoodSpawn -= 0.1f;
+        }
+        else if (_timeBetweenWoodSpawn <= 0.3)
+        {
+            _timeBetweenWoodSpawn -= 0.05f;
+        }
+        else
+        {
+            _timeBetweenWoodSpawn -= 1;
+        }
     }
 }

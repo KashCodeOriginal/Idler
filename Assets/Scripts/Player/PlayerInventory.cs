@@ -13,6 +13,8 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private SellToMarket _sellToMarket;
 
+    [SerializeField] private Upgrade _upgrade;
+
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
     
@@ -81,6 +83,8 @@ public class PlayerInventory : MonoBehaviour
         _sellToMarket.GetWoodValueInInventory += TrySellWood;
         _sellToMarket.GetIngotValueInInventory += TrySellIngot;
         _sellToMarket.GetPlankValueInInventory += TrySellPlank;
+
+        _upgrade.UpgradePlayerInventory += UpgradePlayerInventory;
     }
 
     private void OnDisable()
@@ -107,6 +111,8 @@ public class PlayerInventory : MonoBehaviour
         _sellToMarket.GetWoodValueInInventory -= TrySellWood;
         _sellToMarket.GetIngotValueInInventory -= TrySellIngot;
         _sellToMarket.GetPlankValueInInventory -= TrySellPlank;
+        
+        _upgrade.UpgradePlayerInventory -= UpgradePlayerInventory;
     }
 
     private void AddOre(int value)
@@ -252,5 +258,13 @@ public class PlayerInventory : MonoBehaviour
             addItem?.Invoke(maxAmount);
             itemValueChanged?.Invoke(itemAmount);
         }
+    }
+
+    private void UpgradePlayerInventory()
+    {
+        _maxOreAmountInOnventory += 10;
+        _maxWoodAmountInOnventory += 10;
+        _maxIngotAmountInOnventory += 10;
+        _maxPlankAmountInOnventory += 10;
     }
 }

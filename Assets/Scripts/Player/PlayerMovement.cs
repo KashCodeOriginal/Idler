@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
 
     [SerializeField] private PlayerInventory _playerInventory;
+
+    [SerializeField] private Upgrade _upgrade;
     public event UnityAction<bool> PlayerIsRunning;
     public event UnityAction<bool> PlayerIsIdleingWithResources;
     public event UnityAction<bool> PlayerIsRunningWithResources;
@@ -43,5 +45,19 @@ public class PlayerMovement : MonoBehaviour
                 PlayerIsRunning?.Invoke(false);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        _upgrade.UpgradePlayerSpeed += UpgradePlayerSpeed;
+    }
+    private void OnDisable()
+    {
+        _upgrade.UpgradePlayerSpeed -= UpgradePlayerSpeed;
+    }
+    
+    private void UpgradePlayerSpeed()
+    {
+        _speed += 1;
     }
 }

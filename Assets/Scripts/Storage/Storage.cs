@@ -13,6 +13,8 @@ public class Storage : MonoBehaviour
     [SerializeField] private StorageCollect _storageCollect;
 
     [SerializeField] private PlayerInventory _playerInventory;
+
+    [SerializeField] private Upgrade _upgrade;
     
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
@@ -56,6 +58,8 @@ public class Storage : MonoBehaviour
         _storageCollect.TryGetWoodStorageValue += TryGetWoodAmountInStorage;
         _storageCollect.TryGetIngotStorageValue += TryGetIngotAmountInStorage;
         _storageCollect.TryGetPlankStorageValue += TryGetPlankAmountInStorage;
+
+        _upgrade.UpgradeStorage += UpgradeStorage;
     }
     private void OnDisable()
     {
@@ -70,6 +74,8 @@ public class Storage : MonoBehaviour
         _storageCollect.TryGetWoodStorageValue -= TryGetWoodAmountInStorage;
         _storageCollect.TryGetIngotStorageValue -= TryGetIngotAmountInStorage;
         _storageCollect.TryGetPlankStorageValue -= TryGetPlankAmountInStorage;
+        
+        _upgrade.UpgradeStorage -= UpgradeStorage;
     }
     private void AddOreToStorage(int value)
     {
@@ -161,5 +167,13 @@ public class Storage : MonoBehaviour
         {
             _itemsContainer.GetChild(id).GetComponentInChildren<TextMeshProUGUI>().text = _plankAmount.ToString();
         }
+    }
+
+    private void UpgradeStorage()
+    {
+        _maxAmountOfOreInStorage += 10;
+        _maxAmountOfWoodInStorage += 10;
+        _maxAmountOfIngotInStorage += 10;
+        _maxAmountOfPlankInStorage += 10;
     }
 }
