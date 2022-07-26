@@ -27,6 +27,11 @@ public class Player : MonoBehaviour
     public event UnityAction PlayerSpeedIsUpgraded;
     public event UnityAction StorageIsUpgraded;
 
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     private void PlayerRun(bool isPlayerRunning)
     {
         _animator.SetBool("IsRunning", isPlayerRunning);
