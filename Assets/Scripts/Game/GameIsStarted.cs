@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameIsStarted : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject _player;
+    
 
-    // Update is called once per frame
-    void Update()
+    public void StartGame()
     {
-        
+        _player.GetComponent<CapsuleCollider>().enabled = true;
+        _player.GetComponent<Animator>().SetBool("GameIsStarted", true);
+        Camera.main.GetComponent<Animation>().Play("StartGame");
     }
 }
