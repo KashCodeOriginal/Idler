@@ -5,6 +5,8 @@ using UnityEngine.Events;
 public class Upgrade : MonoBehaviour
 {
     [SerializeField] private Player _player;
+
+    [SerializeField] private int _priceMultiplyer;
     
     public event UnityAction<int> TryUpgradeMine;
     public event UnityAction<int> TryUpgradeWood;
@@ -23,6 +25,12 @@ public class Upgrade : MonoBehaviour
     public event UnityAction UpgradeStorage;
     
     public event UnityAction<int, int> MineInfoChanged;
+    public event UnityAction<int, int> WoodInfoChanged;
+    public event UnityAction<int, int> IngotInfoChanged;
+    public event UnityAction<int, int> PlankInfoChanged;
+    public event UnityAction<int, int> StorageInfoChanged;
+    public event UnityAction<int, int> SpeedInfoChanged;
+    public event UnityAction<int, int> InventoryInfoChanged;
 
     [SerializeField] private int _mineUpgradePrice;
     [SerializeField] private int _woodUpgradePrice;
@@ -92,45 +100,51 @@ public class Upgrade : MonoBehaviour
 
     private void MineUpgrade()
     {
-        _mineUpgradePrice += 10 * _mineLevel;
+        _mineUpgradePrice += _priceMultiplyer * _mineLevel;
         _mineLevel += 1;
         UpgradeMine?.Invoke();
         MineInfoChanged?.Invoke(_mineUpgradePrice, _mineLevel);
     }
     private void WoodUpgrade()
     {
-        _woodUpgradePrice += 10 * _woodLevel;
+        _woodUpgradePrice += _priceMultiplyer * _woodLevel;
         _woodLevel += 1;
         UpgradeWood?.Invoke();
+        WoodInfoChanged(_woodUpgradePrice, _woodLevel);
     }
     private void OreFabricUpgrade()
     {
-        _oreFabricUpgradePrice += 10 * _oreFabricLevel;
+        _oreFabricUpgradePrice += _priceMultiplyer * _oreFabricLevel;
         _oreFabricLevel += 1;
         UpgradeOreFabric?.Invoke();
+        IngotInfoChanged(_oreFabricUpgradePrice, _oreFabricLevel);
     }
     private void WoodFabricUpgrade()
     {
-        _woodFabricUpgradePrice += 10 * _woodFabricLevel;
+        _woodFabricUpgradePrice += _priceMultiplyer * _woodFabricLevel;
         _woodFabricLevel += 1;
         UpgradeWoodFabric?.Invoke();
+        PlankInfoChanged(_woodFabricUpgradePrice, _woodFabricLevel);
     }
     private void PlayerInventoryUpgrade()
     {
-        _playerInventoryUpgradePrice += 10 * _playerInventoryLevel;
+        _playerInventoryUpgradePrice += _priceMultiplyer * _playerInventoryLevel;
         _playerInventoryLevel += 1;
         UpgradePlayerInventory?.Invoke();
+        InventoryInfoChanged(_playerInventoryUpgradePrice, _playerInventoryLevel);
     }
     private void PlayerSpeedUpgrade()
     {
-        _playerSpeedUpgradePrice += 10 * _playerSpeedLevel;
+        _playerSpeedUpgradePrice += _priceMultiplyer * _playerSpeedLevel;
         _playerSpeedLevel += 1;
         UpgradePlayerSpeed?.Invoke();
+        SpeedInfoChanged(_playerSpeedUpgradePrice, _playerSpeedLevel);
     }
     private void StorageUpgrade()
     {
-        _storageUpgradePrice += 10 * _storageLevel;
+        _storageUpgradePrice += _priceMultiplyer * _storageLevel;
         _storageLevel += 1;
         UpgradeStorage?.Invoke();
+        StorageInfoChanged(_storageUpgradePrice, _storageLevel);
     }
 }

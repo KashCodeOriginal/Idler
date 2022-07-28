@@ -58,6 +58,6 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpgradePlayerSpeed()
     {
-        _speed += 1;
+        _speed += 0.5f;
     }
 }
