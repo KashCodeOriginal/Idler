@@ -37,6 +37,16 @@ public class UpgradeDisplay : MonoBehaviour
         _upgrade.SpeedInfoChanged += ChangeSpeedInfo;
         _upgrade.InventoryInfoChanged += ChangeInventoryInfo;
     }
+    private void OnDisable()
+    {
+        _upgrade.MineInfoChanged -= ChangeMineInfo;
+        _upgrade.WoodInfoChanged -= ChangeWoodInfo;
+        _upgrade.IngotInfoChanged -= ChangeIngotInfo;
+        _upgrade.PlankInfoChanged -= ChangePlankInfo;
+        _upgrade.StorageInfoChanged -= ChangeStorageInfo;
+        _upgrade.SpeedInfoChanged -= ChangeSpeedInfo;
+        _upgrade.InventoryInfoChanged -= ChangeInventoryInfo;
+    }
 
     private void ChangeMineInfo(int value, int level)
     {

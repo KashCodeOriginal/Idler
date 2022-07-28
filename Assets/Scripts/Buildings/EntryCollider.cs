@@ -3,7 +3,7 @@ using UnityEngine;
 public class EntryCollider : MonoBehaviour
 {
     [SerializeField] private GameObject _buildingInterface;
-
+    
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.GetComponent<Player>() == true)
