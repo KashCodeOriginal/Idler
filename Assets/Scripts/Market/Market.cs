@@ -35,19 +35,19 @@ public class Market : MonoBehaviour
     {
         if (id == 0)
         {
-            _price.text = _orePrice.ToString();
+            _price.text = "Price: " + _orePrice;
         }
         else if (id == 1)
         {
-            _price.text = _woodPrice.ToString();
+            _price.text = "Price: " + _woodPrice;
         }
         else if (id == 2)
         {
-            _price.text = _ingotPrice.ToString();
+            _price.text = "Price: " + _ingotPrice;
         }
         else if (id == 3)
         {
-            _price.text = _plankPrice.ToString();
+            _price.text = "Price: " + _plankPrice;
         }
     }
 }

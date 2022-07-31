@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tutorial : MonoBehaviour
@@ -7,10 +8,12 @@ public class Tutorial : MonoBehaviour
 
     [SerializeField] private List<GameObject> _collidersList;
 
+    [SerializeField] private List<string> _tutorialPhrases;
+
+    [SerializeField] private GameObject _tutorialText;
+
     private bool _isTutorialPlaying = true;
-
-    public bool IsTutorialPlaying => _isTutorialPlaying;
-
+    
     private int _currentValue = 0;
 
     private void Start()
@@ -19,6 +22,7 @@ public class Tutorial : MonoBehaviour
         {
             _arrowsList[_currentValue].SetActive(true);
             _collidersList[_currentValue].SetActive(true);
+            _tutorialText.GetComponentInChildren<TMP_Text>().text = _tutorialPhrases[_currentValue];
         }
     }
 
@@ -31,6 +35,13 @@ public class Tutorial : MonoBehaviour
             _arrowsList[_currentValue].SetActive(true);
             _collidersList[_currentValue - 1].SetActive(false);
             _collidersList[_currentValue].SetActive(true);
+            _tutorialText.GetComponentInChildren<TMP_Text>().text = _tutorialPhrases[_currentValue];
+        }
+        else
+        {
+            _arrowsList[_currentValue].SetActive(false);
+            _collidersList[_currentValue].SetActive(false);
+            _tutorialText.SetActive(false);
         }
     }
 }

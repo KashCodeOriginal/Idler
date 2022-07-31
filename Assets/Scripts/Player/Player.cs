@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.TextCore.LowLevel;
 
 public class Player : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
+        Load();
     }
 
     private void PlayerRun(bool isPlayerRunning)
@@ -95,6 +97,7 @@ public class Player : MonoBehaviour
     {
         _coins += value;
         ChangeCoinsAmount?.Invoke(_coins);
+        Save();
     }
 
     private void TryBuyMineUpgrade(int value)
@@ -134,5 +137,14 @@ public class Player : MonoBehaviour
             ChangeCoinsAmount?.Invoke(_coins);
             itemIsUpgraded?.Invoke();
         }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetInt("Coins", _coins);
+    }
+    private void Load()
+    {
+        _coins = PlayerPrefs.GetInt("Coins");
     }
 }

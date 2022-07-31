@@ -18,20 +18,20 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int _oreAmount;
     [SerializeField] private int _woodAmount;
     
-    [SerializeField] private int _maxOreAmountInOnventory;
-    [SerializeField] private int _maxWoodAmountInOnventory;
+    [SerializeField] private int _maxOreAmountInInventory;
+    [SerializeField] private int _maxWoodAmountInInventory;
     
     [SerializeField] private int _ingotAmount;
     [SerializeField] private int _plankAmount;
     
-    [SerializeField] private int _maxIngotAmountInOnventory;
-    [SerializeField] private int _maxPlankAmountInOnventory;
+    [SerializeField] private int _maxIngotAmountInInventory;
+    [SerializeField] private int _maxPlankAmountInInventory;
     
-    public int MaxIngotInInventory => _maxIngotAmountInOnventory - _ingotAmount;
-    public int MaxPlankInInventory => _maxPlankAmountInOnventory - _plankAmount;
+    public int MaxIngotInInventory => _maxIngotAmountInInventory - _ingotAmount;
+    public int MaxPlankInInventory => _maxPlankAmountInInventory - _plankAmount;
     
-    public int MaxOreInInventory => _maxOreAmountInOnventory - _oreAmount;
-    public int MaxWoodInInventory => _maxWoodAmountInOnventory - _woodAmount;
+    public int MaxOreInInventory => _maxOreAmountInInventory - _oreAmount;
+    public int MaxWoodInInventory => _maxWoodAmountInInventory - _woodAmount;
 
     public int OreAmount => _oreAmount;
     
@@ -262,9 +262,9 @@ public class PlayerInventory : MonoBehaviour
 
     private void UpgradePlayerInventory()
     {
-        _maxOreAmountInOnventory += 10;
-        _maxWoodAmountInOnventory += 10;
-        _maxIngotAmountInOnventory += 10;
-        _maxPlankAmountInOnventory += 10;
+        _maxOreAmountInInventory += 10;
+        _maxWoodAmountInInventory += 10;
+        _maxIngotAmountInInventory += 10;
+        _maxPlankAmountInInventory += 10;
     }
 }

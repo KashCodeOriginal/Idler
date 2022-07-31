@@ -97,6 +97,8 @@ public class ResourcesCreation : MonoBehaviour
         {
             _timeBetweenOreSpawn -= 1;
         }
+
+        _maxAmountOfOre += 5;
     }
     private void UpgradeWoodCollection()
     {
@@ -112,5 +114,7 @@ public class ResourcesCreation : MonoBehaviour
         {
             _timeBetweenWoodSpawn -= 1;
         }
+        
+        _maxAmountOfWood += 5;
     }
 }

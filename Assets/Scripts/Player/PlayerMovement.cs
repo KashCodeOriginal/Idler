@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _speed;
-
+    
     [SerializeField] private PlayerInventory _playerInventory;
 
     [SerializeField] private Upgrade _upgrade;
@@ -20,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
         {   
             transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
-            
+
             if (_playerInventory.OreAmount > 0 || _playerInventory.WoodAmount > 0 || _playerInventory.IngotAmount > 0 || _playerInventory.PlankAmount > 0)
             {
                 PlayerIsIdleingWithResources?.Invoke(false);
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
                 PlayerIsIdleingWithResources?.Invoke(false);
                 PlayerIsRunning?.Invoke(false);
             }
+            
         }
     }
 

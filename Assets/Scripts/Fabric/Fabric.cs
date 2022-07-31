@@ -10,19 +10,19 @@ public class Fabric : MonoBehaviour
     [SerializeField] private Upgrade _upgrade;
 
     [SerializeField] private int _oreAmountOnFabric;
-    [SerializeField] private int _maxOreAmountOnFabric;
+    [SerializeField] private int _maxOreAmountOnFabric = 10;
     
     [SerializeField] private int _woodAmountOnFabric;
-    [SerializeField] private int _maxWoodAmountOnFabric;
+    [SerializeField] private int _maxWoodAmountOnFabric = 10;
     
     [SerializeField] private int _ironIngotAmountOnFabric;
     [SerializeField] private int _woodPlanksAmountOnFabric;
 
-    [SerializeField] private int _maxIronIngotAmountOnFabric;
-    [SerializeField] private int _maxWoodPlanksAmountOnFabric;
+    [SerializeField] private int _maxIronIngotAmountOnFabric = 10;
+    [SerializeField] private int _maxWoodPlanksAmountOnFabric = 10;
 
-    [SerializeField] private float _timeBetweenIngotsSmelting;
-    [SerializeField] private float _timeBetweenPlanksProcessing;
+    [SerializeField] private float _timeBetweenIngotsSmelting = 5f;
+    [SerializeField] private float _timeBetweenPlanksProcessing = 5f;
     
     private float _currentTimeBetweenIngots;
     private float _currentTimeBetweenPlanks;
@@ -43,6 +43,11 @@ public class Fabric : MonoBehaviour
     public event UnityAction<int> PlanksAmountChanged;
 
     public event UnityAction PlacingBox;
+
+    private void Start()
+    {
+        
+    }
 
     private void FixedUpdate()
     {
@@ -146,6 +151,9 @@ public class Fabric : MonoBehaviour
         {
             _timeBetweenIngotsSmelting -= 1;
         }
+
+        _maxOreAmountOnFabric += 5;
+        _maxIronIngotAmountOnFabric += 5;
     }
     private void UpgradeWoodFabricSpeed()
     {
@@ -161,5 +169,8 @@ public class Fabric : MonoBehaviour
         {
             _timeBetweenPlanksProcessing -= 1;
         }
+        
+        _maxWoodAmountOnFabric += 5;
+        _maxWoodPlanksAmountOnFabric += 5;
     }
 }

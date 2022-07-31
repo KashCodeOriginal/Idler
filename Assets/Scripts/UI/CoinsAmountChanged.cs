@@ -19,6 +19,6 @@ public class CoinsAmountChanged : MonoBehaviour
 
     private void ChangeCoinsText(int value)
     {
-        _coinsValue.text = value.ToString();
+        _coinsValue.text = "Coins: " + value;
     }
 }
