@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -45,6 +46,15 @@ public class Storage : MonoBehaviour
     
     public Transform ItemContainer => _itemsContainer;
 
+    private void Start()
+    {
+        Load();
+        OreStorageAmountChanged?.Invoke(_oreAmount);
+        WoodStorageAmountChanged?.Invoke(_woodAmount);
+        IngotStorageAmountChanged?.Invoke(_ingotAmount);
+        PlankStorageAmountChanged?.Invoke(_plankAmount);
+    }
+
     private void OnEnable()
     {
         _storageSwitcher.ItemChanged += ShowInfo;
@@ -82,24 +92,28 @@ public class Storage : MonoBehaviour
         _oreAmount += value;
         OreStorageAmountChanged?.Invoke(_oreAmount);
         PlacingBox?.Invoke();
+        Save();
     }
     private void AddWoodToStorage(int value)
     {
         _woodAmount += value;
         WoodStorageAmountChanged?.Invoke(_woodAmount);
         PlacingBox?.Invoke();
+        Save();
     }
     private void AddIngotToStorage(int value)
     {
         _ingotAmount += value;
         IngotStorageAmountChanged?.Invoke(_ingotAmount);
         PlacingBox?.Invoke();
+        Save();
     }
     private void AddPlankToStorage(int value)
     {
         _plankAmount += value;
         PlankStorageAmountChanged?.Invoke(_plankAmount);
         PlacingBox?.Invoke();
+        Save();
     }
     private void TryGetOreAmountInStorage(int value)
     {
@@ -111,7 +125,7 @@ public class Storage : MonoBehaviour
         {
             _playerInventory.TryGetItemValue(ref _oreAmount,value, _playerInventory.MaxOreInInventory, AddOreToInventory, OreStorageAmountChanged);
         }
-       
+        Save();
     }
     private void TryGetWoodAmountInStorage(int value)
     {
@@ -123,7 +137,7 @@ public class Storage : MonoBehaviour
         {
             _playerInventory.TryGetItemValue(ref _woodAmount,value, _playerInventory.MaxWoodInInventory, AddWoodToInventory, WoodStorageAmountChanged);
         }
-        
+        Save();
     }
     private void TryGetIngotAmountInStorage(int value)
     {
@@ -135,7 +149,7 @@ public class Storage : MonoBehaviour
         {
             _playerInventory.TryGetItemValue(ref _ingotAmount,value, _playerInventory.MaxOreInInventory, AddIngotToInventory, IngotStorageAmountChanged);
         }
-       
+        Save();
     }
     private void TryGetPlankAmountInStorage(int value)
     {
@@ -147,6 +161,7 @@ public class Storage : MonoBehaviour
         {
             _playerInventory.TryGetItemValue(ref _plankAmount,value, _playerInventory.MaxOreInInventory, AddPlankToInventory, PlankStorageAmountChanged);
         }
+        Save();
     }
 
     private void ShowInfo(int id)
@@ -175,5 +190,29 @@ public class Storage : MonoBehaviour
         _maxAmountOfWoodInStorage += 10;
         _maxAmountOfIngotInStorage += 10;
         _maxAmountOfPlankInStorage += 10;
+        Save();
+    }
+    
+    private void Save()
+    {
+        PlayerPrefs.SetInt("OreInStorage", _oreAmount);
+        PlayerPrefs.SetInt("WoodInStorage", _woodAmount);
+        PlayerPrefs.SetInt("IngotInStorage", _ingotAmount);
+        PlayerPrefs.SetInt("PlankInStorage", _plankAmount);
+        PlayerPrefs.SetInt("MaxOreInStorage", _maxAmountOfOreInStorage);
+        PlayerPrefs.SetInt("MaxWoodInStorage", _maxAmountOfWoodInStorage);
+        PlayerPrefs.SetInt("MaxIngotInStorage", _maxAmountOfIngotInStorage);
+        PlayerPrefs.SetInt("MaxPlankInStorage", _maxAmountOfPlankInStorage);
+    }
+    private void Load()
+    {
+        _oreAmount = PlayerPrefs.GetInt("OreInStorage");
+        _woodAmount = PlayerPrefs.GetInt("WoodInStorage");
+        _ingotAmount = PlayerPrefs.GetInt("IngotInStorage");
+        _plankAmount = PlayerPrefs.GetInt("PlankInStorage");
+        _maxAmountOfOreInStorage = PlayerPrefs.GetInt("MaxOreInStorage", 20);
+        _maxAmountOfWoodInStorage = PlayerPrefs.GetInt("MaxWoodInStorage", 20);
+        _maxAmountOfIngotInStorage = PlayerPrefs.GetInt("MaxIngotInStorage", 20);
+        _maxAmountOfPlankInStorage = PlayerPrefs.GetInt("MaxPlankInStorage", 20);
     }
 }

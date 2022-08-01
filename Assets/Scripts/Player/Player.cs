@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.TextCore.LowLevel;
 
 public class Player : MonoBehaviour
 {
@@ -32,6 +31,7 @@ public class Player : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         Load();
+        ChangeCoinsAmount?.Invoke(_coins);
     }
 
     private void PlayerRun(bool isPlayerRunning)
@@ -136,6 +136,7 @@ public class Player : MonoBehaviour
             _coins -= value;
             ChangeCoinsAmount?.Invoke(_coins);
             itemIsUpgraded?.Invoke();
+            Save();
         }
     }
 

@@ -58,6 +58,15 @@ public class PlayerInventory : MonoBehaviour
     public event UnityAction<int> SellWood;
     public event UnityAction<int> SellIngot;
     public event UnityAction<int> SellPlank;
+
+    private void Start()
+    {
+        Load();
+        OreAmountInventoryChanged?.Invoke(_oreAmount);
+        WoodAmountInventoryChanged?.Invoke(_woodAmount);
+        IngotAmountInventoryChanged?.Invoke(_ingotAmount);
+        PlankAmountInventoryChanged?.Invoke(_plankAmount);
+    }
     
     private void OnEnable()
     {
@@ -119,23 +128,27 @@ public class PlayerInventory : MonoBehaviour
     {
         _oreAmount += value;
         OreAmountInventoryChanged?.Invoke(_oreAmount);
+        Save();
     }
 
     private void AddWood(int value)
     {
         _woodAmount += value;
         WoodAmountInventoryChanged?.Invoke(_woodAmount);
+        Save();
     }
 
     private void AddIngot(int value)
     {
         _ingotAmount += value;
         IngotAmountInventoryChanged?.Invoke(_ingotAmount);
+        Save();
     }
     private void AddPlank(int value)
     {
         _plankAmount += value;
         PlankAmountInventoryChanged?.Invoke(_plankAmount);
+        Save();
     }
 
     private void TrySellOre()
@@ -145,6 +158,7 @@ public class PlayerInventory : MonoBehaviour
             SellOre?.Invoke(_oreAmount);
             _oreAmount = 0;
             OreAmountInventoryChanged?.Invoke(_oreAmount);
+            Save();
         }
     }
     private void TrySellWood()
@@ -154,6 +168,7 @@ public class PlayerInventory : MonoBehaviour
             SellWood?.Invoke(_woodAmount);
             _woodAmount = 0;
             WoodAmountInventoryChanged?.Invoke(_woodAmount);
+            Save();
         }
     }
     private void TrySellIngot()
@@ -163,6 +178,7 @@ public class PlayerInventory : MonoBehaviour
             SellIngot?.Invoke(_ingotAmount);
             _ingotAmount = 0;
             IngotAmountInventoryChanged?.Invoke(_ingotAmount);
+            Save();
         }
     }
     private void TrySellPlank()
@@ -172,16 +188,19 @@ public class PlayerInventory : MonoBehaviour
             SellPlank?.Invoke(_plankAmount);
             _plankAmount = 0;
             PlankAmountInventoryChanged?.Invoke(_plankAmount);
+            Save();
         }
     }
 
     private void GetOreAmountForFabric()
     {
         TryGetItemValue(ref _oreAmount, _fabric.MaxOreAmountOnFabric, AddOreToFabric, OreAmountInventoryChanged);
+        Save();
     }
     private void GetWoodAmountForFabric()
     {
         TryGetItemValue(ref _woodAmount, _fabric.MaxWoodAmountOnFabric, AddWoodToFabric, WoodAmountInventoryChanged);
+        Save();
     }
 
     private void GetOreAmountForStorage(int maxAmountInStorage, int value)
@@ -194,6 +213,7 @@ public class PlayerInventory : MonoBehaviour
         {
             TryGetItemValue(ref _oreAmount,value, maxAmountInStorage, AddOreToStorage, OreAmountInventoryChanged);
         }
+        Save();
     }
     private void GetWoodAmountForStorage(int maxAmountInStorage, int value)
     {
@@ -205,6 +225,7 @@ public class PlayerInventory : MonoBehaviour
         {
             TryGetItemValue(ref _woodAmount,value, maxAmountInStorage, AddWoodToStorage, WoodAmountInventoryChanged);
         }
+        Save();
     }
     private void GetIngotAmountForStorage(int maxAmountInStorage, int value)
     {
@@ -216,6 +237,7 @@ public class PlayerInventory : MonoBehaviour
         {
             TryGetItemValue(ref _ingotAmount,value, maxAmountInStorage, AddIngotToStorage, IngotAmountInventoryChanged);
         }
+        Save();
     }
     private void GetPlankAmountForStorage(int maxAmountInStorage, int value)
     {
@@ -227,6 +249,7 @@ public class PlayerInventory : MonoBehaviour
         {
             TryGetItemValue(ref _plankAmount,value, maxAmountInStorage, AddPlankToStorage, PlankAmountInventoryChanged);
         }
+        Save();
     }
     public void TryGetItemValue(ref int itemAmount,int maxAmount, UnityAction<int> addItem, UnityAction<int> itemValueChanged)
     {
@@ -266,5 +289,29 @@ public class PlayerInventory : MonoBehaviour
         _maxWoodAmountInInventory += 10;
         _maxIngotAmountInInventory += 10;
         _maxPlankAmountInInventory += 10;
+        Save();
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetInt("OreInInventory", _oreAmount);
+        PlayerPrefs.SetInt("WoodInInventory", _woodAmount);
+        PlayerPrefs.SetInt("IngotInInventory", _ingotAmount);
+        PlayerPrefs.SetInt("PlankInInventory", _plankAmount);
+        PlayerPrefs.SetInt("MaxOreInInventory", _maxOreAmountInInventory);
+        PlayerPrefs.SetInt("MaxWoodInInventory", _maxWoodAmountInInventory);
+        PlayerPrefs.SetInt("MaxIngotInInventory", _maxIngotAmountInInventory);
+        PlayerPrefs.SetInt("MaxPlankInInventory", _maxPlankAmountInInventory);
+    }
+    private void Load()
+    {
+        _oreAmount = PlayerPrefs.GetInt("OreInInventory");
+        _woodAmount = PlayerPrefs.GetInt("WoodInInventory");
+        _ingotAmount = PlayerPrefs.GetInt("IngotInInventory");
+        _plankAmount = PlayerPrefs.GetInt("PlankInInventory");
+        _maxOreAmountInInventory = PlayerPrefs.GetInt("MaxOreInInventory", 10);
+        _maxWoodAmountInInventory = PlayerPrefs.GetInt("MaxWoodInInventory", 10);
+        _maxIngotAmountInInventory = PlayerPrefs.GetInt("MaxIngotInInventory", 10);
+        _maxPlankAmountInInventory = PlayerPrefs.GetInt("MaxPlankInInventory", 10);
     }
 }

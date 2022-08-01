@@ -16,8 +16,11 @@ public class Tutorial : MonoBehaviour
     
     private int _currentValue = 0;
 
+    private int _isTutorialPlayingValue = 1;
+
     private void Start()
     {
+        Load();
         if (_isTutorialPlaying == true)
         {
             _arrowsList[_currentValue].SetActive(true);
@@ -42,6 +45,22 @@ public class Tutorial : MonoBehaviour
             _arrowsList[_currentValue].SetActive(false);
             _collidersList[_currentValue].SetActive(false);
             _tutorialText.SetActive(false);
+            _isTutorialPlayingValue = 2;
+            Save();
+        }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetInt("IsTutorialPlaying", _isTutorialPlayingValue);
+    }
+    private void Load()
+    {
+        _isTutorialPlayingValue = PlayerPrefs.GetInt("IsTutorialPlaying", 1);
+
+        if (_isTutorialPlayingValue == 2)
+        {
+            _isTutorialPlaying = false;
         }
     }
 }

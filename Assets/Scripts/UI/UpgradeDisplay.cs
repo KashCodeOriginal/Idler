@@ -55,32 +55,32 @@ public class UpgradeDisplay : MonoBehaviour
     }
     private void ChangeWoodInfo(int value, int level)
     {
-        _woodCostText.text = "Current Level: " + level;
-        _woodLevelText.text = "Current Price: " + value;
+        _woodLevelText.text = "Current Level: " + level;
+        _woodCostText.text = "Current Price: " + value;
     }
     private void ChangeIngotInfo(int value, int level)
     {
-        _ingotCostText.text = "Current Level: " + level;
-        _ingotLevelText.text = "Current Price: " + value;
+        _ingotLevelText.text = "Current Level: " + level;
+        _ingotCostText.text = "Current Price: " + value;
     }
     private void ChangePlankInfo(int value, int level)
     {
-        _plankCostText.text = "Current Level: " + level;
-        _plankLevelText.text = "Current Price: " + value;
+        _plankLevelText.text = "Current Level: " + level;
+        _plankCostText.text = "Current Price: " + value;
     }
     private void ChangeStorageInfo(int value, int level)
     {
-        _storageCostText.text = "Current Level: " + level;
-        _storageLevelText.text = "Current Price: " + value;
+        _storageLevelText.text = "Current Level: " + level; 
+        _storageCostText.text = "Current Price: " + value;
     }
     private void ChangeSpeedInfo(int value, int level)
     {
-        _speedCostText.text = "Current Level: " + level;
-        _speedLevelText.text = "Current Price: " + value;
+        _speedLevelText.text = "Current Level: " + level;
+        _speedCostText.text = "Current Price: " + value; 
     }
     private void ChangeInventoryInfo(int value, int level)
     {
-        _inventoryCostText.text = "Current Level: " + level;
-        _inventoryLevelText.text = "Current Price: " + value;
+        _inventoryLevelText.text = "Current Level: " + level;
+        _inventoryCostText.text = "Current Price: " + value; 
     }
 }

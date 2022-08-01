@@ -10,19 +10,19 @@ public class Fabric : MonoBehaviour
     [SerializeField] private Upgrade _upgrade;
 
     [SerializeField] private int _oreAmountOnFabric;
-    [SerializeField] private int _maxOreAmountOnFabric = 10;
+    [SerializeField] private int _maxOreAmountOnFabric;
     
     [SerializeField] private int _woodAmountOnFabric;
-    [SerializeField] private int _maxWoodAmountOnFabric = 10;
+    [SerializeField] private int _maxWoodAmountOnFabric;
     
     [SerializeField] private int _ironIngotAmountOnFabric;
     [SerializeField] private int _woodPlanksAmountOnFabric;
 
-    [SerializeField] private int _maxIronIngotAmountOnFabric = 10;
-    [SerializeField] private int _maxWoodPlanksAmountOnFabric = 10;
+    [SerializeField] private int _maxIronIngotAmountOnFabric;
+    [SerializeField] private int _maxWoodPlanksAmountOnFabric;
 
-    [SerializeField] private float _timeBetweenIngotsSmelting = 5f;
-    [SerializeField] private float _timeBetweenPlanksProcessing = 5f;
+    [SerializeField] private float _timeBetweenIngotsSmelting;
+    [SerializeField] private float _timeBetweenPlanksProcessing;
     
     private float _currentTimeBetweenIngots;
     private float _currentTimeBetweenPlanks;
@@ -46,7 +46,11 @@ public class Fabric : MonoBehaviour
 
     private void Start()
     {
-        
+        Load();
+        OreAmountChanged?.Invoke(_oreAmountOnFabric);
+        WoodAmountChanged?.Invoke(_woodAmountOnFabric);
+        IngotsAmountChanged?.Invoke(_ironIngotAmountOnFabric);
+        PlanksAmountChanged?.Invoke(_woodPlanksAmountOnFabric);
     }
 
     private void FixedUpdate()
@@ -108,12 +112,14 @@ public class Fabric : MonoBehaviour
         _oreAmountOnFabric += value;
         OreAmountChanged?.Invoke(_oreAmountOnFabric);
         PlacingBox?.Invoke();
+        Save();
     }
     private void AddWood(int value)
     {
         _woodAmountOnFabric += value;
         WoodAmountChanged?.Invoke(_woodAmountOnFabric);
         PlacingBox?.Invoke();
+        Save();
     }
 
     private void TryCollectIngotFromFabric()
@@ -134,6 +140,7 @@ public class Fabric : MonoBehaviour
             inputItemAmountChange?.Invoke(inputItem);
             outputItemAmountChange?.Invoke(outputItem);
             currentTime = 0;
+            Save();
         }
     }
 
@@ -154,6 +161,7 @@ public class Fabric : MonoBehaviour
 
         _maxOreAmountOnFabric += 5;
         _maxIronIngotAmountOnFabric += 5;
+        Save();
     }
     private void UpgradeWoodFabricSpeed()
     {
@@ -172,5 +180,34 @@ public class Fabric : MonoBehaviour
         
         _maxWoodAmountOnFabric += 5;
         _maxWoodPlanksAmountOnFabric += 5;
+        Save();
+    }
+    private void Save()
+    {
+        PlayerPrefs.SetInt("Ore", _oreAmountOnFabric);
+        PlayerPrefs.SetInt("Wood", _woodAmountOnFabric);
+        PlayerPrefs.SetInt("MaxOre", _maxOreAmountOnFabric);
+        PlayerPrefs.SetInt("MaxWood", _maxWoodAmountOnFabric);
+        PlayerPrefs.SetInt("Ingot", _ironIngotAmountOnFabric);
+        PlayerPrefs.SetInt("Plank", _woodPlanksAmountOnFabric);
+        PlayerPrefs.SetInt("MaxIngot", _maxIronIngotAmountOnFabric);
+        PlayerPrefs.SetInt("MaxPlank", _maxWoodPlanksAmountOnFabric);
+        PlayerPrefs.SetFloat("OreTime", _timeBetweenIngotsSmelting);
+        PlayerPrefs.SetFloat("WoodTime", _timeBetweenPlanksProcessing);
+    }
+
+    private void Load()
+    {
+        _oreAmountOnFabric = PlayerPrefs.GetInt("Ore");
+        _maxOreAmountOnFabric = PlayerPrefs.GetInt("MaxOre", 10);
+        _woodAmountOnFabric = PlayerPrefs.GetInt("Wood");
+        _maxWoodAmountOnFabric = PlayerPrefs.GetInt("MaxWood", 10);
+        _ironIngotAmountOnFabric = PlayerPrefs.GetInt("Ingot");
+        _woodPlanksAmountOnFabric = PlayerPrefs.GetInt("Plank");
+        _maxIronIngotAmountOnFabric = PlayerPrefs.GetInt("MaxIngot", 10);
+        _maxWoodPlanksAmountOnFabric = PlayerPrefs.GetInt("MaxPlank", 10);
+        _timeBetweenIngotsSmelting = PlayerPrefs.GetFloat("OreTime", 5);
+        _timeBetweenPlanksProcessing = PlayerPrefs.GetFloat("WoodTime", 5);
+        
     }
 }
